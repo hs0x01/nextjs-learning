@@ -1,16 +1,16 @@
 'use client'
 
-import styles from "./EmpNumberInput.module.css"
+import styles from "./EmpNameInput.module.css"
 import { ChangeEvent, useState } from "react"
 import TextInput from "../../textinput/TextInput"
 
-interface EmpNumberInputProps {
+interface EmpNameInputProps {
     onChange: (text: string) => void
     required?: boolean
     readonly?: boolean
 }
 
-export default function EmpNumberInput({ onChange, required }: EmpNumberInputProps) {
+export default function EmpNameInput({ onChange, required }: EmpNameInputProps) {
 
     const [text, setText] = useState("")
     const [errMsg, setErrMsg] = useState("")
@@ -21,15 +21,11 @@ export default function EmpNumberInput({ onChange, required }: EmpNumberInputPro
     }
 
     const handleRequiredError = () => {
-        setErrMsg("社員番号は必須です")
+        setErrMsg("社員名は必須です")
     }
 
     const handleLengthError = () => {
-        setErrMsg("社員番号は5文字以内で入力してください")
-    }
-
-    const handleChartypeError = () => {
-        setErrMsg("社員番号は数字で入力してください")
+        setErrMsg("社員名は30文字以内で入力してください")
     }
 
     const handleSuccess = () => {
@@ -38,15 +34,13 @@ export default function EmpNumberInput({ onChange, required }: EmpNumberInputPro
 
     return (
         <div>
-            <span>社員番号</span>
-            <span><TextInput placeholder="社員番号を入力してください"
+            <span>社員名</span>
+            <span><TextInput placeholder="社員名を入力してください"
                 required={required}
-                maxlength={5}
-                chartype={/^[0-9]+$/}
+                maxlength={30}
                 onChange={handleChangeText}
                 onRequiredError={handleRequiredError}
                 onLengthError={handleLengthError}
-                onChartypeError={handleChartypeError}
                 onSuccess={handleSuccess}
                 readonly={false}></TextInput></span>
             {

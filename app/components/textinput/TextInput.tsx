@@ -14,10 +14,12 @@ interface TextInputProps {
     onRequiredError?: () => void
     onLengthError?: (text: string) => void
     onChartypeError?: (text: string) => void
+    onSuccess?: (text: string) => void
 }
 
-export default function TextInput({placeholder = "", onChange, required = false, readonly = false, maxlength,
-                            minlength = 0, chartype, onRequiredError, onLengthError, onChartypeError}: TextInputProps) {
+export default function TextInput({ placeholder = "", onChange, required = false, readonly = false, maxlength,
+    minlength = 0, chartype, onRequiredError, onLengthError, onChartypeError,
+    onSuccess }: TextInputProps) {
 
     const [text, setText] = useState("")
     const [hasError, setError] = useState(false)
@@ -29,6 +31,10 @@ export default function TextInput({placeholder = "", onChange, required = false,
     }
 
     const handleBlur = () => {
+        if (!required && isEmpty(text)) {
+            fireSuccess()
+            return
+        }
         if (!validateRequired(text)) {
             fireRequiredError()
         } else if (!validateLength(text)) {
@@ -36,15 +42,19 @@ export default function TextInput({placeholder = "", onChange, required = false,
         } else if (!validateChartype(text)) {
             fireChartypeError()
         } else {
-            setError(false)
+            fireSuccess()
         }
+    }
+
+    const isEmpty = (text: string) => {
+        return (typeof text === "undefined" || text === null || text.length === 0)
     }
 
     const validateRequired = (text: string) => {
         if (!required) {
             return true
         }
-        if (typeof text === "undefined" || text === null || text.length === 0) {
+        if (isEmpty(text)) {
             return false
         }
         return true
@@ -59,7 +69,6 @@ export default function TextInput({placeholder = "", onChange, required = false,
     }
 
     const validateChartype = (text: string) => {
-
         if (typeof chartype === "undefined") {
             return true
         }
@@ -67,9 +76,7 @@ export default function TextInput({placeholder = "", onChange, required = false,
         if (!chartype.test(text)) {
             return false
         }
-
         return true
-
     }
 
     const fireRequiredError = () => {
@@ -93,5 +100,15 @@ export default function TextInput({placeholder = "", onChange, required = false,
         }
     }
 
-    return(<input type="text" value={text} className={`${styles.styles} ${hasError ? styles.error : ""}`} onChange={handleChangeText} onBlur={handleBlur} placeholder={placeholder} ></input>)
+    const fireSuccess = () => {
+        setError(false)
+        if (onSuccess) {
+            onSuccess(text)
+        }
+    }
+
+    return (
+        <input type="text" value={text} className={`${styles.styles} ${hasError ? styles.error : ""}`}
+            onChange={handleChangeText} onBlur={handleBlur} placeholder={placeholder}
+            readOnly={readonly ? true : false}></input>)
 }

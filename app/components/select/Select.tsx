@@ -4,12 +4,12 @@ import styles from "./Select.module.css"
 import { ChangeEvent, useState } from "react"
 
 interface SelectProps {
-    children: Array<{value: string, label: string}>
+    children: Array<{ value: string, label: string }>
     selected: string
     onChange: (selectedValue: string) => void
 }
 
-export default function Select({children, selected, onChange}: SelectProps) {
+export default function Select({ children, selected, onChange }: SelectProps) {
 
     const [selectedValue, setSelectedValue] = useState("")
 
@@ -28,7 +28,7 @@ export default function Select({children, selected, onChange}: SelectProps) {
         onChange(value)
     }
 
-    return(
+    return (
         <select className={styles.styles} onChange={handleChangeText}>{createOptions()}</select>
     )
 }

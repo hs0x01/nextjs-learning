@@ -1,3 +1,7 @@
 .styles {
     border-radius: 15px;
 }
+
+.error {
+    background-color: red;
+}

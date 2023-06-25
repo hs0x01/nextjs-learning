@@ -17,9 +17,21 @@ export default function Home() {
     setText(text)
   }
 
+  const handleRequiredError = () => {
+    console.log('required error!')
+  }
+
+  const handleLengthError = () => {
+    console.log('length error!')
+  }
+
+  const handleChartypeError = () => {
+    console.log('chartype error!')
+  }
+
   return (
     <>
-      <TextInput onChange={handleChange} placeholder="hoge"></TextInput>
+      <TextInput onChange={handleChange} placeholder="hoge" maxlength={5} required={true} chartype={/^[0-9]+$/} onRequiredError={handleRequiredError} onLengthError={handleLengthError} onChartypeError={handleChartypeError}></TextInput>
       <br />
       <Button onClick={handleClick}>test</Button>
       <br />

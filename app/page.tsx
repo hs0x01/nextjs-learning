@@ -2,6 +2,7 @@
 
 import Button from "./components/button/Button"
 import DeptSelect from "./components/department/DeptSelect"
+import EmpList from "./components/employee/EmpList/EmpList"
 import EmpNameInput from "./components/employee/EmpNameInput/EmpNameInput"
 import EmpNumberInput from "./components/employee/EmpNumberInput/EmpNumberInput"
 import Select from "./components/select/Select"
@@ -32,8 +33,8 @@ export default function Home() {
     console.log('chartype error!')
   }
 
-  const handleDeptSelectChange = () => {
-    
+  const handleRowSelected = (empNumber: string) => {
+    console.log(empNumber)
   }
 
   return (
@@ -46,9 +47,23 @@ export default function Home() {
         //<Select selected={"b"} onChange={(selectedValue) => {console.log(selectedValue)}}>{[{value: "a", label: "あ"}, {value: "b", label: "い"}]}</Select>
         //<EmpNumberInput onChange={handleChange}></EmpNumberInput>
         //<EmpNameInput onChange={handleChange}></EmpNameInput>
+        //<DeptSelect onChange={handleDeptSelectChange} selected=""></DeptSelect>
       }
 
-      <DeptSelect onChange={handleDeptSelectChange} selected=""></DeptSelect>
+      <EmpList onRowSelected={handleRowSelected}>
+      {
+        [
+          {
+            empNumber: '00001', empName: 'テストｑ太郎', deptName: '開発部'
+          },
+          {
+            empNumber: '00002', empName: 'テストｇ花子', deptName: '営業部'
+          }
+        ]        
+      }
+      </EmpList>
+
+      
       
     </>
   )

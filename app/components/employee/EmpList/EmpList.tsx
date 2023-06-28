@@ -1,18 +1,19 @@
 'use client'
 
 import styles from "./EmpList.module.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface EmpListProps {
-    children: Array<{empNumber: string, empName: string, deptName: string}>
     onRowSelected?: (empNumber: string) => void
 }
 
-export default function EmpList({ onRowSelected, children }: EmpListProps) {
+export default function EmpList({onRowSelected}: EmpListProps) {
+
+    const [empList, setEmpList] = useState<any[]>([])
 
     const createEmpList = () => {
 
-        return children.map((data, idx) => {
+        return empList.map((data, idx) => {
             return (<tr key={data.empNumber} onClick={() => {if (onRowSelected) {onRowSelected(data.empNumber)}}} className={styles.row}>
                         <td>{idx + 1}</td>
                         <td>{data.empNumber}</td>
@@ -20,8 +21,19 @@ export default function EmpList({ onRowSelected, children }: EmpListProps) {
                         <td>{data.deptName}</td>
                     </tr>)
         })
-
     }
+
+    useEffect(() => {
+        fetch("/api/employees")
+            .then(async (response) => {
+                const data = await response.json()
+                setEmpList(data)
+            })
+            .catch((response) => {
+                console.log("Error!")
+                console.log(response)
+            })
+    })
 
     return (
         <table>

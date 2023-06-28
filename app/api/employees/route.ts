@@ -28,7 +28,29 @@ export async function GET(request: NextRequest) {
                     empNumber: "asc"
                 }
             })
-        return NextResponse.json(employees)
+
+        const departments = await prisma.departments.findMany(
+            {
+                orderBy: {
+                    deptNumber: "asc"
+                }
+            }
+        )
+
+        const employeesWithDeptName = employees.map((employee) => {
+            const department = departments.find((department) => {
+                return employee.deptNumber = department.deptNumber
+            })
+
+            return {
+                empNumber: employee.empNumber,
+                empName: employee.empName,
+                deptNumber: employee.deptNumber,
+                deptName: department ? department.deptName : ""
+            }
+        })
+
+        return NextResponse.json(employeesWithDeptName)
     } catch(e) {
         return NextResponse.json({"error": "system_error"}, {status: 500})
     }

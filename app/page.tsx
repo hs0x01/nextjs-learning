@@ -50,18 +50,7 @@ export default function Home() {
         //<DeptSelect onChange={handleDeptSelectChange} selected=""></DeptSelect>
       }
 
-      <EmpList onRowSelected={handleRowSelected}>
-      {
-        [
-          {
-            empNumber: '00001', empName: 'テストｑ太郎', deptName: '開発部'
-          },
-          {
-            empNumber: '00002', empName: 'テストｇ花子', deptName: '営業部'
-          }
-        ]        
-      }
-      </EmpList>
+      <EmpList onRowSelected={handleRowSelected}></EmpList>
 
       
       

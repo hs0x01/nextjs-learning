@@ -23,11 +23,14 @@ export async function GET(request: NextRequest) {
         
         const employees = await prisma.employees.findMany(
             {
-                where
+                where,
+                orderBy: {
+                    empNumber: "asc"
+                }
             })
         return NextResponse.json(employees)
     } catch(e) {
-        return NextResponse.json({"message": "システムエラーです。"}, {status: 500})
+        return NextResponse.json({"error": "system_error"}, {status: 500})
     }
 }
 
@@ -35,14 +38,25 @@ export async function POST(request: NextRequest) {
     try {
         const content = await request.json()
         if (!content.empNumber) {
-            return NextResponse.json({"message": "empNumberがありません。"}, {status: 400})
+            return NextResponse.json({"error": "empNumber_empty"}, {status: 400})
         }
         if (!content.empName) {
-            return NextResponse.json({"message": "empNameがありません。"}, {status: 400})
+            return NextResponse.json({"error": "empName_empty"}, {status: 400})
         }
         if (!content.deptNumber) {
-            return NextResponse.json({"message": "deptNumberがありません。"}, {status: 400})
+            return NextResponse.json({"error": "deptNumber_empty"}, {status: 400})
         }
+        
+        const empNumber: string = content.empNumber
+        const employee = await prisma.employees.findUnique({
+            where: {
+                empNumber
+            }
+        })
+        if (employee) {
+            return NextResponse.json({"error": "empNumber_duplication"}, {status: 400})
+        }
+
         await prisma.employees.create({
             data: {
                 empNumber: content.empNumber,
@@ -52,6 +66,6 @@ export async function POST(request: NextRequest) {
         })
         return NextResponse.json({})
     } catch(e) {
-        return NextResponse.json({"message": "システムエラーです。"}, {status: 500})
+        return NextResponse.json({"error": "system_error"}, {status: 500})
     }
 }

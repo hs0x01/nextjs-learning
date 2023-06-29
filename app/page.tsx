@@ -5,36 +5,25 @@ import DeptSelect from "./components/department/DeptSelect"
 import EmpList from "./components/employee/EmpList/EmpList"
 import EmpNameInput from "./components/employee/EmpNameInput/EmpNameInput"
 import EmpNumberInput from "./components/employee/EmpNumberInput/EmpNumberInput"
+import UpsertButton from "./components/employee/UpsertButton/UpsertButton"
 import Select from "./components/select/Select"
 import TextInput from "./components/textinput/TextInput"
 import { useState } from "react"
 
 export default function Home() {
 
-  const [text, setText] = useState("")
+  const [empNumber, setEmpNumber] = useState("")
+  const [empName, setEmpName] = useState("")
+  const [deptNumber, setDeptNumber] = useState("")
 
-  const handleClick = () => {
-    console.log(text)
+  const handleEmpNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmpNumber(e.target.value)
   }
-
-  const handleChange = (text: string) => {
-    setText(text)
+  const handleEmpNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmpName(e.target.value)
   }
-
-  const handleRequiredError = () => {
-    console.log('required error!')
-  }
-
-  const handleLengthError = () => {
-    console.log('length error!')
-  }
-
-  const handleChartypeError = () => {
-    console.log('chartype error!')
-  }
-
-  const handleRowSelected = (empNumber: string) => {
-    console.log(empNumber)
+  const handleDeptNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDeptNumber(e.target.value)
   }
 
   return (
@@ -48,10 +37,14 @@ export default function Home() {
         //<EmpNumberInput onChange={handleChange}></EmpNumberInput>
         //<EmpNameInput onChange={handleChange}></EmpNameInput>
         //<DeptSelect onChange={handleDeptSelectChange} selected=""></DeptSelect>
+        //<EmpList onRowSelected={handleRowSelected} empName={text}></EmpList>
       }
 
-      <EmpList onRowSelected={handleRowSelected}></EmpList>
-
+      <input type="text" onChange={handleEmpNumberChange}></input>
+      <input type="text" onChange={handleEmpNameChange}></input>
+      <input type="text" onChange={handleDeptNumberChange}></input>
+      
+      <UpsertButton empNumber={empNumber} empName={empName} deptNumber={deptNumber} isUpdate={true}></UpsertButton>
       
       
     </>

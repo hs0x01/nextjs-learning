@@ -4,6 +4,7 @@ import { Prisma, PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export async function GET(request: NextRequest) {
+
     try {
         const searchParams = request.nextUrl.searchParams
         const empNumber = searchParams.get("empNumber")
@@ -49,7 +50,7 @@ export async function GET(request: NextRequest) {
                 deptName: department ? department.deptName : ""
             }
         })
-
+        
         return NextResponse.json(employeesWithDeptName)
     } catch(e) {
         return NextResponse.json({"error": "system_error"}, {status: 500})

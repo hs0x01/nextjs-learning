@@ -5,14 +5,17 @@ import { useEffect, useState } from "react"
 
 interface EmpListProps {
     onRowSelected?: (empNumber: string) => void
+    onError?: (error: string) => void
+    empNumber?: string
+    empName?: string
+    deptNumber?: string
 }
 
-export default function EmpList({onRowSelected}: EmpListProps) {
+export default function EmpList({onRowSelected, onError, empName, empNumber, deptNumber}: EmpListProps) {
 
     const [empList, setEmpList] = useState<any[]>([])
 
     const createEmpList = () => {
-
         return empList.map((data, idx) => {
             return (<tr key={data.empNumber} onClick={() => {if (onRowSelected) {onRowSelected(data.empNumber)}}} className={styles.row}>
                         <td>{idx + 1}</td>
@@ -24,16 +27,27 @@ export default function EmpList({onRowSelected}: EmpListProps) {
     }
 
     useEffect(() => {
-        fetch("/api/employees")
+        const searchEmpNumber: string = empNumber ? empNumber : ""
+        const searchEmpName: string = empName ? empName : ""
+        const searchDeptNumber: string = deptNumber ? deptNumber : ""
+        fetch("/api/employees?" + new URLSearchParams({empNumber: searchEmpNumber, empName: searchEmpName, deptName: searchDeptNumber}))
             .then(async (response) => {
                 const data = await response.json()
-                setEmpList(data)
+                if (response.ok) {
+                    setEmpList(data)    
+                } else {
+                    if (onError) {
+                        onError(data.error)
+                    }
+                }
             })
-            .catch((response) => {
-                console.log("Error!")
-                console.log(response)
+            .catch(async (response) => {
+                console.error(response)
+                if (onError) {
+                    onError("system_error")
+                }
             })
-    })
+    }, [empNumber, empName, deptNumber, onError])
 
     return (
         <table>

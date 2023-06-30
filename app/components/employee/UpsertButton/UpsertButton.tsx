@@ -1,5 +1,6 @@
 'use client'
 
+import styles from "./UpsertButton.module.css"
 import Button from "../../button/Button"
 
 interface UpsertButtonProps {
@@ -44,6 +45,6 @@ export default function UpsertButton({isUpdate, empNumber, empName, deptNumber, 
             }
         })
     }
-    return(<Button onClick={handleClick}>登録</Button>)
+    return(<Button onClick={handleClick} className={styles.styles}>{isUpdate ? "更新" : "登録"}</Button>)
 }
 

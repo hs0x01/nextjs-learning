@@ -1,32 +1,57 @@
 'use client'
 
 import styles from "./DeptSelect.module.css"
-import { ChangeEvent, useState } from "react"
+import { useEffect, useState } from "react"
 import Select from "../select/Select"
 
 interface DeptSelectProps {
     selected: string
     onChange: (selectedValue: string) => void
+    onError?: (error: string) => void
 }
 
-export default function DeptSelect({ selected, onChange }: DeptSelectProps) {
+export default function DeptSelect({selected, onChange, onError}: DeptSelectProps) {
 
     const [selectedValue, setSelectedValue] = useState("")
+    const [deptList, setDeptList] = useState<any[]>([])
 
     const handleChange = (selectedValue: string) => {
         setSelectedValue(selectedValue)
         onChange(selected)
     }
 
+    const createDeptList = () => {
+        return deptList.map((data, idx) => {
+            return (
+                {value: data.deptNumber, label: data.deptName}
+            )
+        })
+    }
+
+    useEffect(() => {
+        fetch("/api/departments")
+            .then(async (response) => {
+                const data = await response.json()
+                if (response.ok) {
+                    setDeptList(data)    
+                } else {
+                    if (onError) {
+                        onError(data.error)
+                    }
+                }
+            })
+            .catch(async (response) => {
+                console.error(response)
+                if (onError) {
+                    onError("system_error")
+                }
+            })
+    }, [onError])
+
     return (
-        <Select onChange={handleChange} selected={selected}>
-            {
-                [
-                    {value: "1", label: "開発部"},
-                    {value: "2", label: "営業部"},
-                    {value: "3", label: "総務部"}
-                ]
-            }
-        </Select>
+        <div>
+            <span>部署名</span>
+            <span><Select onChange={handleChange} selected={selected}>{createDeptList()}</Select></span>
+        </div>
     )
 }

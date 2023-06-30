@@ -2,6 +2,7 @@
 
 import Button from "./components/button/Button"
 import DeptSelect from "./components/department/DeptSelect"
+import DeleteButton from "./components/employee/DeleteButton/DeleteButton"
 import EmpList from "./components/employee/EmpList/EmpList"
 import EmpNameInput from "./components/employee/EmpNameInput/EmpNameInput"
 import EmpNumberInput from "./components/employee/EmpNumberInput/EmpNumberInput"
@@ -40,13 +41,8 @@ export default function Home() {
         //<EmpList onRowSelected={handleRowSelected} empName={text}></EmpList>
       }
 
-      <input type="text" onChange={handleEmpNumberChange}></input>
-      <input type="text" onChange={handleEmpNameChange}></input>
-      <input type="text" onChange={handleDeptNumberChange}></input>
-      
-      <UpsertButton empNumber={empNumber} empName={empName} deptNumber={deptNumber} isUpdate={true}></UpsertButton>
-      
-      
+      <DeptSelect onChange={() => {}} selected=""></DeptSelect>
+
     </>
   )
 }

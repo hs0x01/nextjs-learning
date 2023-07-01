@@ -8,11 +8,12 @@ interface EmpNameInputProps {
     onChange: (text: string) => void
     required?: boolean
     readonly?: boolean
+    value?: string
 }
 
-export default function EmpNameInput({ onChange, required }: EmpNameInputProps) {
+export default function EmpNameInput({ onChange, required, value = "" }: EmpNameInputProps) {
 
-    const [text, setText] = useState("")
+    const [text, setText] = useState(value)
     const [errMsg, setErrMsg] = useState("")
 
     const handleChangeText = (text: string) => {
@@ -42,7 +43,8 @@ export default function EmpNameInput({ onChange, required }: EmpNameInputProps) 
                 onRequiredError={handleRequiredError}
                 onLengthError={handleLengthError}
                 onSuccess={handleSuccess}
-                readonly={false}></TextInput></span>
+                readonly={false}
+                value={text}></TextInput></span>
             {
                 errMsg ? <><br /><span className={styles.error}>{errMsg}</span></> : ""
             }

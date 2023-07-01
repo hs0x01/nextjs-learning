@@ -15,13 +15,14 @@ interface TextInputProps {
     onLengthError?: (text: string) => void
     onChartypeError?: (text: string) => void
     onSuccess?: (text: string) => void
+    value?: string
 }
 
 export default function TextInput({ placeholder = "", onChange, required = false, readonly = false, maxlength,
     minlength = 0, chartype, onRequiredError, onLengthError, onChartypeError,
-    onSuccess }: TextInputProps) {
+    onSuccess, value = "" }: TextInputProps) {
 
-    const [text, setText] = useState("")
+    const [text, setText] = useState(value)
     const [hasError, setError] = useState(false)
 
     const handleChangeText = (e: ChangeEvent<HTMLInputElement>) => {

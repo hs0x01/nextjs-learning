@@ -12,7 +12,7 @@ interface DeptSelectProps {
 
 export default function DeptSelect({selected, onChange, onError}: DeptSelectProps) {
 
-    const [selectedValue, setSelectedValue] = useState("")
+    const [selectedValue, setSelectedValue] = useState(selected)
     const [deptList, setDeptList] = useState<any[]>([])
 
     const handleChange = (selectedValue: string) => {

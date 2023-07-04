@@ -1,7 +1,7 @@
 'use client'
 
 import styles from "./DeptSelect.module.css"
-import { useEffect, useState } from "react"
+import { useLayoutEffect, useState } from "react"
 import Select from "../select/Select"
 
 interface DeptSelectProps {
@@ -28,7 +28,7 @@ export default function DeptSelect({selected, onChange, onError}: DeptSelectProp
         })
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         fetch("/api/departments")
             .then(async (response) => {
                 const data = await response.json()

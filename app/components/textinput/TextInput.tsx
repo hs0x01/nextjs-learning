@@ -25,6 +25,11 @@ export default function TextInput({ placeholder = "", onChange, required = false
     const [text, setText] = useState(value)
     const [hasError, setError] = useState(false)
 
+    // TODO
+    setTimeout(() => {
+        setText(value)
+    }, 10)
+
     const handleChangeText = (e: ChangeEvent<HTMLInputElement>) => {
         const text: string = e.target.value
         setText(text)

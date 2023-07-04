@@ -5,7 +5,7 @@ import EmpNameInput from "@/app/components/employee/EmpNameInput/EmpNameInput"
 import EmpNumberInput from "@/app/components/employee/EmpNumberInput/EmpNumberInput"
 import UpsertButton from "@/app/components/employee/UpsertButton/UpsertButton"
 import { useParams, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useLayoutEffect } from "react"
 
 interface EmpPatternPageProps {
     onError?: (error: string) => void

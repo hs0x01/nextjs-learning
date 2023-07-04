@@ -1,7 +1,7 @@
 'use client'
 
 import styles from "./EmpList.module.css"
-import { useEffect, useState } from "react"
+import { useLayoutEffect, useState } from "react"
 
 interface EmpListProps {
     onRowSelected?: (empNumber: string) => void
@@ -26,7 +26,7 @@ export default function EmpList({onRowSelected, onError, empName, empNumber, dep
         })
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const searchEmpNumber: string = empNumber ? empNumber : ""
         const searchEmpName: string = empName ? empName : ""
         const searchDeptNumber: string = deptNumber ? deptNumber : ""

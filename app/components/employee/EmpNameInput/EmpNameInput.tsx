@@ -13,8 +13,14 @@ interface EmpNameInputProps {
 
 export default function EmpNameInput({ onChange, required, value = "" }: EmpNameInputProps) {
 
-    const [text, setText] = useState(value)
+    const [text, setText] = useState("")
+    
     const [errMsg, setErrMsg] = useState("")
+
+    // TODO
+    setTimeout(() => {
+        setText(value)
+    }, 10)
 
     const handleChangeText = (text: string) => {
         setText(text)
